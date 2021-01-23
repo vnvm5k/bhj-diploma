@@ -13,8 +13,6 @@ class User {
    * */
   static setCurrent(user) {
       localStorage.user = JSON.stringify(user);
-  
-    
   }
 
   /**
@@ -42,18 +40,23 @@ class User {
    * Получает информацию о текущем
    * авторизованном пользователе.
    * */
-  static fetch( data, callback = (err, response) =>  {
-    const xhr = new XMLHttpRequest();
-    xhr.open( 'GET', `${this.URL + '/current'}` );
-    xhr.responseType = json; 
-    xhr.send();
-    if(response.success == true) {
-      User.setCurrent();
-    }
-    else {
-      User.unsetCurrent();
-    }
-  })
+  static fetch( data, callback = f => f ) {
+    return createRequest({
+      const xhr = new XMLHttpRequest();
+      xhr.open( 'GET', this.URL + '/current');
+      xhr.responseType = json; 
+      xhr.send();
+      
+      callback:(err,response) => {
+        if(err === null && response.success) {
+          this.setCurrent();
+        }
+        else {
+          this.unsetCurrent();
+        }
+      }
+    });
+}
 
   
 
@@ -63,53 +66,55 @@ class User {
    * сохранить пользователя через метод
    * User.setCurrent.
    * */
-  static login( data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open( 'POST', `${this.URL + '/login'}` );
-    xhr.responseType = json; 
-    xhr.send();
-    if (response.success == true) {
-      User.setCurrent();
-    }
-    else {
-      console.log(response.error); 
-    }
-  })
-
+  static login(data, callback = f => f ) {
+    return createRequest({
+      const xhr = new XMLHttpRequest();
+      xhr.open( 'POST', this.URL + '/login' );
+      xhr.responseType = json; 
+      xhr.send();
+      
+      callback:(err, response) => {
+        if (err === null && response.success) {
+          this.setCurrent(response.user);
+        }
+        callback(err,response); 
+      }
+    });
+}
   /**
    * Производит попытку регистрации пользователя.
    * После успешной авторизации необходимо
    * сохранить пользователя через метод
    * User.setCurrent.
    * */
-  static register( data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open( 'POST', `${this.URL + '/register'}` );
-    xhr.responseType = json; 
-    xhr.send();
-    if (response.success == true) {
-      User.setCurrent();
-    }
-    else {
-      console.log(response.error); 
-    }
-  })
+  static register( data, callback = f => f) {
+    return createRequest({  
+      const xhr = new XMLHttpRequest();
+      xhr.open( 'POST', this.URL + '/register');
+      xhr.responseType = json; 
+      xhr.send();
+      if (err === null && response.success) {
+        this.setCurrent();
+      }
+    });
+  }
+
 
 
   /**
    * Производит выход из приложения. После успешного
    * выхода необходимо вызвать метод User.unsetCurrent
    * */
-  static logout( data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open( 'POST', `${this.URL + '/logout'}` );
-    xhr.responseType = json; 
-    xhr.send();
-    if (response.success == true) {
-      User.unsetCurrent();
-    }
-    else {
-      console.log(response.error); 
-    }
-  })
+  
+  static logout( data, callback = f => f) {
+    return createRequest({  
+      const xhr = new XMLHttpRequest();
+      xhr.open( 'POST', this.URL + '/logout');
+      xhr.responseType = json; 
+      xhr.send();
+      if (err === null && response.success) {
+        this.unsetCurrent();
+      }
+    });
+  }
 }

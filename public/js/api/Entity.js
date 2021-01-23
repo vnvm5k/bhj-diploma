@@ -11,47 +11,54 @@ class Entity {
    * Это могут быть счета или доходы/расходы
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static list( data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open( 'GET', 'URL' );
-    xhr.responseType = json; 
-    xhr.send();
-  })
+  static list( data, callback = f => f) {
+    return createRequest({
+      const xhr = new XMLHttpRequest();
+      xhr.open( 'GET', this.URL);
+      xhr.responseType = json; 
+      xhr.send();
+    });
+  }
 
   /**
    * Создаёт счёт или доход/расход с помощью запроса
    * на сервер. (в зависимости от того,
    * что наследуется от Entity)
    * */
-  static create( data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open( 'POST', 'URL' );
-    xhr.responseType = json; 
-    let modifiedData = Object.assign({ _method: 'PUT' }, data );
-    xhr.send();
-  });
+  static create( data, callback = f => f) {
+    return createRequest({
+      const xhr = new XMLHttpRequest();
+      xhr.open( 'POST', this.URL );
+      xhr.responseType = json; 
+      let modifiedData = Object.assign({ _method: 'PUT' }, data );
+      xhr.send();
+    });
+  }
 
   /**
    * Получает информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static get( id = '', data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open( 'GET', 'URL' );
-    xhr.responseType = json; 
-    xhr.send();
-  });
+  static get( id = '', data, callback = f => f) {
+    return createRequest({
+      const xhr = new XMLHttpRequest();
+      xhr.open( 'GET', this.URL + '/id');
+      xhr.responseType = json; 
+      xhr.send();
+   });
+  }
 
   /**
    * Удаляет информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static remove( id = '', data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open( 'POST', 'URL' );
-    xhr.responseType = json; 
-    let modifiedData = Object.assign({ _method: 'DELETE', id: '' }, data );
-    xhr.send();
-  }); 
+  static remove( id = '', data, callback = f => f) {
+    return createRequest({
+      const xhr = new XMLHttpRequest();
+      xhr.open( 'POST', 'URL' );
+      xhr.responseType = json; 
+      let modifiedData = Object.assign({ _method: 'DELETE', id: '' }, data );
+      xhr.send(); 
+    });
 }
 

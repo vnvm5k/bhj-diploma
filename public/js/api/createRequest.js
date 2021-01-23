@@ -7,12 +7,12 @@ const createRequest = (options = {}) => {
 	formData = new FormData;
 	try {
 		if(options.method == 'POST') {
-			xhr.open( 'POST', '' );
+			xhr.open( 'POST', 'http://localhost:8000' );
 			xhr.responseType = json; 
 			xhr.withCredentials = true;
 			xhr.send( formData );
 		} else if(options.method == 'GET') {
-			xhr.open( 'GET', '' );
+			xhr.open( 'GET', 'http://localhost:8000' );
 			xhr.send();
 		}
 	}

@@ -12,7 +12,7 @@ class Modal {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    if (!element) throw Error; 
+    if (!element) throw new Error; 
     this.element = element; 
     this.registerEvents()
     
@@ -26,7 +26,7 @@ class Modal {
   registerEvents() {
     this.element.querySelectorAll("[data-dismiss]").forEach(element => {
 
-      addEventListener('click',this.onClose(element))
+      element.addEventListener('click',this.onClose(element))
 
     });
   }
@@ -42,7 +42,11 @@ class Modal {
    * Удаляет обработчики событий
    * */
   unregisterEvents() {
+    this.element.querySelectorAll("[data-dismiss]").forEach(element => {
 
+      element.removeEventListener('click',this.onClose(element))
+
+    });
   }
   /**
    * Открывает окно: устанавливает CSS-свойство display
