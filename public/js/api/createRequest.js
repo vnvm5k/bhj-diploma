@@ -3,7 +3,7 @@
  * на сервер.
  * */
 const createRequest = (options = {}) => {
-	const xhr = new XMLHttpRequest; 
+	const xhr = new XMLHttpRequest(); 
 	formData = new FormData;
 	try {
 		if(options.method == 'POST') {

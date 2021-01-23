@@ -7,15 +7,6 @@ class Sidebar {
   /**
    * Запускает initAuthLinks и initToggleButton
    * */
-   constructor() {
-    this.btn = document.querySelector('.sidebar-toggle');
-    this.body = document.querySelector('.sidebar-mini');
-    this.regBtn = document.querySelector('.menu-item_register');
-    this.logInBtn = document.querySelector("[form='login-form']");
-    this.logOutBtn = document.querySelector('.menu-item_logout');
-   }
-
-   
 
   static init() {
     this.initAuthLinks();
@@ -28,8 +19,10 @@ class Sidebar {
    * при нажатии на кнопку .sidebar-toggle
    * */
   static initToggleButton() {
-    this.btn.addEventListener('click', function() {
-      this.body.classList.toggle('sidebar-open sidebar-collapse');
+    const btn = document.querySelector('.sidebar-toggle');
+    const body = document.querySelector('.sidebar-mini');
+    btn.addEventListener('click', function() {
+      body.classList.toggle('sidebar-open sidebar-collapse');
     })
   }
 
@@ -41,25 +34,28 @@ class Sidebar {
    * выходу устанавливает App.setState( 'init' )
    * */
   static initAuthLinks() {
-    this.regBtn.addEventListener('click', function(e){
+    const regBtn = document.querySelector('.menu-item_register');
+    regBtn.addEventListener('click', function(e){
       const element = e.target; 
       const searchWindow = new App();
       const openWindow = new Modal(searchWindow.getModal(element));
       openWindow.open()
       e.preventDefault();
     });
-    this.logInBtn.addEventListener('click', function(e){
+    const logInBtn = document.querySelector("[form='login-form']");
+    logInBtn.addEventListener('click', function(e){
       const element = e.target; 
       const searchWindow = new App();
       const openWindow = new Modal(searchWindow.getModal(element));
       openWindow.open()
       e.preventDefault();
     });
-    this.logOutBtn.addEventListener('click', function(e){
+    const logOutBtn = document.querySelector('.menu-item_logout');
+    logOutBtn.addEventListener('click', function(e) {
       const logOut = new User();
       const searchWindow = new App();
       logOut.logout(); 
-      if() {
+      if(response.success == true) {
         searchWindow.setState( 'init' ); 
       }
       e.preventDefault();

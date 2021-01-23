@@ -36,7 +36,6 @@ class Modal {
    * Закрывает текущее окно (Modal.close())
    * */
   onClose( e ) {
-    e.preventDefault(); 
     this.close(e);  
   }
   /**

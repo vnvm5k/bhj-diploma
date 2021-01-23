@@ -43,17 +43,17 @@ class User {
    * авторизованном пользователе.
    * */
   static fetch( data, callback = (err, response) =>  {
-    const xhr = new XMLHttpRequest;
+    const xhr = new XMLHttpRequest();
     xhr.open( 'GET', `${this.URL + '/current'}` );
     xhr.responseType = json; 
-    xhr..send();
+    xhr.send();
     if(response.success == true) {
       User.setCurrent();
     }
     else {
       User.unsetCurrent();
     }
-  });
+  })
 
   
 
@@ -64,7 +64,7 @@ class User {
    * User.setCurrent.
    * */
   static login( data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest;
+    const xhr = new XMLHttpRequest();
     xhr.open( 'POST', `${this.URL + '/login'}` );
     xhr.responseType = json; 
     xhr.send();
@@ -74,7 +74,7 @@ class User {
     else {
       console.log(response.error); 
     }
-  });
+  })
 
   /**
    * Производит попытку регистрации пользователя.
@@ -83,7 +83,7 @@ class User {
    * User.setCurrent.
    * */
   static register( data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest;
+    const xhr = new XMLHttpRequest();
     xhr.open( 'POST', `${this.URL + '/register'}` );
     xhr.responseType = json; 
     xhr.send();
@@ -93,7 +93,7 @@ class User {
     else {
       console.log(response.error); 
     }
-  });
+  })
 
 
   /**
@@ -101,7 +101,7 @@ class User {
    * выхода необходимо вызвать метод User.unsetCurrent
    * */
   static logout( data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest;
+    const xhr = new XMLHttpRequest();
     xhr.open( 'POST', `${this.URL + '/logout'}` );
     xhr.responseType = json; 
     xhr.send();
@@ -111,5 +111,5 @@ class User {
     else {
       console.log(response.error); 
     }
-  });
+  })
 }

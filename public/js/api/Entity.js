@@ -12,11 +12,11 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static list( data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest;
+    const xhr = new XMLHttpRequest();
     xhr.open( 'GET', 'URL' );
     xhr.responseType = json; 
     xhr.send();
-  });
+  })
 
   /**
    * Создаёт счёт или доход/расход с помощью запроса
@@ -24,7 +24,7 @@ class Entity {
    * что наследуется от Entity)
    * */
   static create( data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest;
+    const xhr = new XMLHttpRequest();
     xhr.open( 'POST', 'URL' );
     xhr.responseType = json; 
     let modifiedData = Object.assign({ _method: 'PUT' }, data );
@@ -36,7 +36,7 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static get( id = '', data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest;
+    const xhr = new XMLHttpRequest();
     xhr.open( 'GET', 'URL' );
     xhr.responseType = json; 
     xhr.send();
@@ -47,7 +47,7 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static remove( id = '', data, callback = (err, response) => {
-    const xhr = new XMLHttpRequest;
+    const xhr = new XMLHttpRequest();
     xhr.open( 'POST', 'URL' );
     xhr.responseType = json; 
     let modifiedData = Object.assign({ _method: 'DELETE', id: '' }, data );
