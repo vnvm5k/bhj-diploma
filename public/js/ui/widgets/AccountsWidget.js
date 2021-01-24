@@ -13,7 +13,10 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+    this.element = element; 
+    if (!this.element) throw new Error;
+    registerEvents();
+    update(); 
   }
 
   /**
@@ -24,7 +27,21 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
+    const createBtn = document.querySelector('.create-account');
+    const accountList = document.querySelector('.accounts-panel');
+    
 
+    createBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+       App.getModal('createAccount');
+       Modal.open(); 
+    });
+
+    accountList.addEventListener('click', function(e) {
+      e.preventDefault();
+      let event = e.target; 
+      AccountsWidget.onSelectAccount(event); 
+    });   
   }
 
   /**
@@ -38,7 +55,14 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
+    if (User.current()) {
+       let accList = Account.list();
+       this.clear();
+       accList.forEach( function(element) {
+         this.renderItem(element); 
+       });
 
+    }
   }
 
   /**
@@ -47,7 +71,7 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-
+    this.accountList.innerHTML = ''; 
   }
 
   /**
@@ -58,7 +82,8 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount( element ) {
-
+    element.classList.toggle('active'); 
+    App.showPage( 'transactions', { account_id: `${this.element.id}` });
   }
 
   /**
@@ -67,7 +92,14 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML( item ) {
-
+    let acc =
+   `<li class="active account" data-id="${item.id}">
+        <a href="#">
+            <span>${item.name}</span> /
+            <span>${item.sum} ₽</span>
+        </a>
+    </li>`
+    return acc; 
   }
 
   /**
@@ -77,6 +109,6 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem( item ) {
-
+    this.accountList.innerHTML += this.getAccountHTML(item); 
   }
 }

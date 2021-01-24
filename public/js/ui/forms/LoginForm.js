@@ -11,6 +11,13 @@ class LoginForm {
    * закрывает окно, в котором находится форма
    * */
   onSubmit( options ) {
-
+	User.login();
+  	callback:(err,response) => {
+    	if(err === null && response.success) {
+    		this.formData.reset();
+    		App.setState( 'user-logged' );
+    		Modal.close();
+    	}
+  	}
   }
 }

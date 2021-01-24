@@ -11,7 +11,8 @@ class TransactionsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+    this.element = element; 
+    registerEvents();
   }
   /**
    * Регистрирует обработчики нажатия на
@@ -20,6 +21,20 @@ class TransactionsWidget {
    * экземпляра окна
    * */
   registerEvents() {
+    const incomeBtn = document.querySelector('.create-income-button');
+    const expenseBtn = document.querySelector('.create-expense-button');
+    
 
+    incomeBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+       App.getModal('createIncome');
+       Modal.open(); 
+    });
+
+    expenseBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+       App.getModal('createExpense');
+       Modal.open(); 
+    });
   }
 }

@@ -11,14 +11,16 @@ class TransactionsPage {
    * через registerEvents()
    * */
   constructor( element ) {
-
+    this.element = element; 
+    if (!this.element) throw new Error; 
+    registerEvents()
   }
 
   /**
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-
+    render()
   }
 
   /**
@@ -28,9 +30,18 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
+    const raccBtn = document.querySelector('.remove-account');
+    const rtransBtn = document.querySelectorAll('.transaction__remove');
 
-  }
+    raccBtn.addEventListener('click', function(e) {
+      this.removeAccount();
+    });
 
+    rtransBtn.forEach( function(element) {
+      element.addEventListener('click', function(e) {
+        this.removeTransaction(element.data-id);
+      });
+    });
   /**
    * Удаляет счёт. Необходимо показать диаголовое окно (с помощью confirm())
    * Если пользователь согласен удалить счёт, вызовите
@@ -40,7 +51,10 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
-
+    if (!this.lastOptions) return
+    confirm('Вы действительно хотите удалить счёт'); 
+    Account.remove();
+    App.update();
   }
 
   /**
@@ -49,7 +63,9 @@ class TransactionsPage {
    * По удалению транзакции вызовите метод App.update()
    * */
   removeTransaction( id ) {
-
+    confirm('Вы действительно хотите удалить эту транзакцию?');
+    Transaction.remove(id);
+    App.update();
   }
 
   /**
@@ -59,6 +75,14 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render( options ) {
+    if (!options) return; 
+    const lastOptions = options;
+    const data = Account.get(lastOptions.account_id);
+    const list = Transaction.list();
+    if(data) {
+      this.renderTitle(data.name); 
+    }
+    this.renderTransactions(list); 
 
   }
 
@@ -68,14 +92,17 @@ class TransactionsPage {
    * Устанавливает заголовок: «Название счёта»
    * */
   clear() {
-
+    this.renderTransactions([]); 
+    this.renderTitle("Название счета"); 
+    this.lastOptions = ''; 
   }
 
   /**
    * Устанавливает заголовок в элемент .content-title
    * */
   renderTitle( name ) {
-
+    const title = document.querySelector('.content-title');
+    title.innerHTML = name; 
   }
 
   /**
@@ -83,7 +110,14 @@ class TransactionsPage {
    * в формат «10 марта 2019 г. в 03:20»
    * */
   formatDate( date ) {
-
+   const time = new Date(date);
+   const year = time.getFullYear();
+   const month = time.getMonth();
+   const day = time.getDate();
+   const hour = time.getHours();
+   const minute = time.getMinutes(); 
+   const monthName = ["января", "февраля", "марта","апреля", "мая","июня","июля","авгутса","сентября","октября","ноября","декабря"]
+   return day + monthName[month] +  year + 'г.' + 'в' + hour + ':' + minute
   }
 
   /**
@@ -91,6 +125,28 @@ class TransactionsPage {
    * item - объект с информацией о транзакции
    * */
   getTransactionHTML( item ) {
+    let trans = 
+    `<div class="transaction transaction_${item.type} row">
+        <div class="col-md-7 transaction__details">
+          <div class="transaction__icon">
+              <span class="fa fa-money fa-2x"></span>
+          </div>
+          <div class="transaction__info">
+              <h4 class="transaction__title">${item.name}</h4>
+              <div class="transaction__date">${this.formatDate()}</div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="transaction__summ">
+              ${item.sum} <span class="currency">₽</span>
+          </div>
+        </div>
+        <div class="col-md-2 transaction__controls">
+            <button class="btn btn-danger transaction__remove" data-id="${item.id}">
+                <i class="fa fa-trash"></i>  
+            </button>
+        </div>
+    </div>`
 
   }
 
@@ -99,6 +155,9 @@ class TransactionsPage {
    * используя getTransactionHTML
    * */
   renderTransactions( data ) {
-
+    const content = document.querySelector(' .content'); 
+    data.forEach( function(element) {
+       content.innerHTML += this.getTransactionHTML(element); 
+    });
   }
 }
