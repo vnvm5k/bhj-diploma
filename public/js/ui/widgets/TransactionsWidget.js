@@ -11,8 +11,9 @@ class TransactionsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    this.element = element; 
-    registerEvents();
+    this.element = element;
+    if (!this.element) throw new Error('Ошибка, передано пустое значение'); 
+    this.registerEvents();
   }
   /**
    * Регистрирует обработчики нажатия на

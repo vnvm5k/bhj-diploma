@@ -12,15 +12,15 @@ class TransactionsPage {
    * */
   constructor( element ) {
     this.element = element; 
-    if (!this.element) throw new Error; 
-    registerEvents()
+    if (!this.element) throw new Error('Ошибка, передано пустое значение'); 
+    this.registerEvents()
   }
 
   /**
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-    render()
+    this.render()
   }
 
   /**

@@ -14,9 +14,9 @@ class AccountsWidget {
    * */
   constructor( element ) {
     this.element = element; 
-    if (!this.element) throw new Error;
-    registerEvents();
-    update(); 
+    if (!this.element) throw new Error('Ошибка, передано пустое значение');
+    this.registerEvents();
+    this.update(); 
   }
 
   /**

@@ -36,27 +36,19 @@ class Sidebar {
   static initAuthLinks() {
     const regBtn = document.querySelector('.menu-item_register');
     regBtn.addEventListener('click', function(e){
-      const element = e.target; 
-      const searchWindow = new App();
-      const openWindow = new Modal(searchWindow.getModal(element));
-      openWindow.open()
+      Modal.open(App.getModal(e.target));
       e.preventDefault();
     });
     const logInBtn = document.querySelector("[form='login-form']");
     logInBtn.addEventListener('click', function(e){
-      const element = e.target; 
-      const searchWindow = new App();
-      const openWindow = new Modal(searchWindow.getModal(element));
-      openWindow.open()
+      Modal.open(App.getModal(e.target));
       e.preventDefault();
     });
     const logOutBtn = document.querySelector('.menu-item_logout');
     logOutBtn.addEventListener('click', function(e) {
-      const logOut = new User();
-      const searchWindow = new App();
-      logOut.logout(); 
-      if(response.success == true) {
-        searchWindow.setState( 'init' ); 
+      User.logout(); 
+      if(User.logout().success) {
+        App.setState( 'init' ); 
       }
       e.preventDefault();
     });

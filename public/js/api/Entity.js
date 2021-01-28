@@ -13,10 +13,13 @@ class Entity {
    * */
   static list( data, callback = f => f) {
     return createRequest({
-      const xhr = new XMLHttpRequest();
-      xhr.open( 'GET', this.URL);
-      xhr.responseType = json; 
-      xhr.send();
+      url: this.URL,
+      method: 'GET',
+      responseType: 'json', 
+      data:data, 
+      callback:(err, response) => {
+        callback(err, response); 
+      }
     });
   }
 
@@ -26,12 +29,15 @@ class Entity {
    * что наследуется от Entity)
    * */
   static create( data, callback = f => f) {
+    let modifiedData = Object.assign({ _method: 'PUT' }, data );
     return createRequest({
-      const xhr = new XMLHttpRequest();
-      xhr.open( 'POST', this.URL );
-      xhr.responseType = json; 
-      let modifiedData = Object.assign({ _method: 'PUT' }, data );
-      xhr.send();
+      url: this.URL,
+      method: 'POST',
+      responseType: 'json', 
+      data:modifiedData, 
+      callback:(err, response) => {
+        callback(err, response); 
+      }
     });
   }
 
@@ -41,10 +47,13 @@ class Entity {
    * */
   static get( id = '', data, callback = f => f) {
     return createRequest({
-      const xhr = new XMLHttpRequest();
-      xhr.open( 'GET', this.URL + '/id');
-      xhr.responseType = json; 
-      xhr.send();
+      url: this.url + `/${id}`,
+      method: 'GET',
+      responseType: 'json', 
+      data:data,
+      callback:(err, response) => {
+        callback(err, response); 
+      } 
    });
   }
 
@@ -53,12 +62,15 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static remove( id = '', data, callback = f => f) {
+    let modifiedData = Object.assign({ _method: 'DELETE', id: `${id}` }, data );
     return createRequest({
-      const xhr = new XMLHttpRequest();
-      xhr.open( 'POST', 'URL' );
-      xhr.responseType = json; 
-      let modifiedData = Object.assign({ _method: 'DELETE', id: '' }, data );
-      xhr.send(); 
+      url: this.url,
+      method: 'POST',
+      responseType: 'json', 
+      data:modifiedData,
+      callback:(err, response) => {
+        callback(err, response); 
+      } 
     });
 }
 

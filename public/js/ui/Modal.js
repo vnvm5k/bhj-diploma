@@ -12,7 +12,7 @@ class Modal {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-    if (!element) throw new Error; 
+    if (!element) throw new Error('Ошибка, передано пустое значение'); 
     this.element = element; 
     this.registerEvents()
     
@@ -25,7 +25,7 @@ class Modal {
    * */
   registerEvents() {
     this.element.querySelectorAll("[data-dismiss]").forEach(element => {
-
+      this.onClose = this.onClose.bind( this );
       element.addEventListener('click',this.onClose(element))
 
     });
@@ -43,7 +43,7 @@ class Modal {
    * */
   unregisterEvents() {
     this.element.querySelectorAll("[data-dismiss]").forEach(element => {
-
+      this.onClose = this.onClose.bind( this );
       element.removeEventListener('click',this.onClose(element))
 
     });

@@ -12,7 +12,7 @@ class UserWidget {
    * */
   constructor( element ) {
     this.element = element; 
-    if(!this.element) throw new Error; 
+    if (!this.element) throw new Error('Ошибка, передано пустое значение'); 
   }
 
   /**

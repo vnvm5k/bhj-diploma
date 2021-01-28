@@ -28,12 +28,7 @@ class User {
    * из локального хранилища
    * */
   static current() {
-      try {
         return JSON.parse(localStorage.getItem('user'));
-      } catch (e) {
-        return null;
-      }
-    
   }
 
   /**
@@ -42,18 +37,19 @@ class User {
    * */
   static fetch( data, callback = f => f ) {
     return createRequest({
-      const xhr = new XMLHttpRequest();
-      xhr.open( 'GET', this.URL + '/current');
-      xhr.responseType = json; 
-      xhr.send();
+      url: this.URL + '/current',
+      method: 'POST',
+      responseType: 'json', 
+      data: data,
       
       callback:(err,response) => {
         if(err === null && response.success) {
-          this.setCurrent();
+          this.setCurrent(response.user);
         }
         else {
-          this.unsetCurrent();
+          this.unsetCurrent(response.user);
         }
+        callback(err, response);
       }
     });
 }
@@ -68,11 +64,10 @@ class User {
    * */
   static login(data, callback = f => f ) {
     return createRequest({
-      const xhr = new XMLHttpRequest();
-      xhr.open( 'POST', this.URL + '/login' );
-      xhr.responseType = json; 
-      xhr.send();
-      
+      url: this.URL + '/login',
+      method: 'POST',
+      responseType: 'json', 
+      data: data,
       callback:(err, response) => {
         if (err === null && response.success) {
           this.setCurrent(response.user);
@@ -88,13 +83,17 @@ class User {
    * User.setCurrent.
    * */
   static register( data, callback = f => f) {
-    return createRequest({  
-      const xhr = new XMLHttpRequest();
-      xhr.open( 'POST', this.URL + '/register');
-      xhr.responseType = json; 
-      xhr.send();
-      if (err === null && response.success) {
-        this.setCurrent();
+    return createRequest({ 
+      url: this.URL + '/register',
+      method: 'POST',
+      responseType: 'json', 
+      data: data, 
+
+      callback:(err, response) => {
+        if (err === null && response.success) {
+          this.setCurrent(response.user);
+        }
+        callback(err,response); 
       }
     });
   }
@@ -107,13 +106,17 @@ class User {
    * */
   
   static logout( data, callback = f => f) {
-    return createRequest({  
-      const xhr = new XMLHttpRequest();
-      xhr.open( 'POST', this.URL + '/logout');
-      xhr.responseType = json; 
-      xhr.send();
-      if (err === null && response.success) {
-        this.unsetCurrent();
+    return createRequest({ 
+      url: this.URL + '/logout',
+      method: 'POST',
+      responseType: 'json', 
+      data: data, 
+
+      callback:(err, response) => {
+        if (err === null && response.success) {
+          this.unsetCurrent(response.user);
+        }
+        callback(err,response); 
       }
     });
   }
