@@ -33,8 +33,7 @@ class AccountsWidget {
 
     createBtn.addEventListener('click', function(e) {
       e.preventDefault();
-       App.getModal('createAccount');
-       Modal.open(); 
+       Modal.open(App.getModal('createAccount')); 
     });
 
     accountList.addEventListener('click', function(e) {
@@ -58,7 +57,7 @@ class AccountsWidget {
     if (User.current()) {
        let accList = Account.list();
        this.clear();
-       accList.forEach( function(element) {
+       accList.forEach((element) => {
          this.renderItem(element); 
        });
 

@@ -25,9 +25,10 @@ class Modal {
    * */
   registerEvents() {
     this.element.querySelectorAll("[data-dismiss]").forEach(element => {
-      this.onClose = this.onClose.bind( this );
-      element.addEventListener('click',this.onClose(element))
-
+      element.addEventListener('click',(e) => {
+        e.preventDefault(); 
+        this.onClose(element);
+      });
     });
   }
 
@@ -43,9 +44,10 @@ class Modal {
    * */
   unregisterEvents() {
     this.element.querySelectorAll("[data-dismiss]").forEach(element => {
-      this.onClose = this.onClose.bind( this );
-      element.removeEventListener('click',this.onClose(element))
-
+      element.removeEventListener('click', (e) => {
+        e.preventDefault();
+        this.onClose(element);
+      });
     });
   }
   /**

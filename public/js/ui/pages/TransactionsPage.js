@@ -33,15 +33,16 @@ class TransactionsPage {
     const raccBtn = document.querySelector('.remove-account');
     const rtransBtn = document.querySelectorAll('.transaction__remove');
 
-    raccBtn.addEventListener('click', function(e) {
+    raccBtn.addEventListener('click', (e) => {
       this.removeAccount();
     });
 
     rtransBtn.forEach( function(element) {
-      element.addEventListener('click', function(e) {
+      element.addEventListener('click', (e) => {
         this.removeTransaction(element.data-id);
       });
     });
+  }
   /**
    * Удаляет счёт. Необходимо показать диаголовое окно (с помощью confirm())
    * Если пользователь согласен удалить счёт, вызовите
@@ -52,9 +53,14 @@ class TransactionsPage {
    * */
   removeAccount() {
     if (!this.lastOptions) return
-    confirm('Вы действительно хотите удалить счёт'); 
+    this.confirm('Вы действительно хотите удалить счёт'); 
     Account.remove();
-    App.update();
+    this.clear(); 
+    Account.remove((err,response) => {
+      if(err === null && response.success) {
+        App.update();
+      }
+    });
   }
 
   /**
@@ -63,9 +69,13 @@ class TransactionsPage {
    * По удалению транзакции вызовите метод App.update()
    * */
   removeTransaction( id ) {
-    confirm('Вы действительно хотите удалить эту транзакцию?');
+    this.confirm('Вы действительно хотите удалить эту транзакцию?');
     Transaction.remove(id);
-    App.update();
+    Transaction.remove((err,response) => {
+      if(err === null && response.success) {
+        App.update();
+      }
+    });
   }
 
   /**
@@ -82,7 +92,7 @@ class TransactionsPage {
     if(data) {
       this.renderTitle(data.name); 
     }
-    this.renderTransactions(list); 
+    this.renderTransactions(list);  
 
   }
 
@@ -155,8 +165,8 @@ class TransactionsPage {
    * используя getTransactionHTML
    * */
   renderTransactions( data ) {
-    const content = document.querySelector(' .content'); 
-    data.forEach( function(element) {
+    const content = document.querySelector('.content'); 
+    data.forEach( (element) => {
        content.innerHTML += this.getTransactionHTML(element); 
     });
   }
