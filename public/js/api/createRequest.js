@@ -6,12 +6,12 @@ const createRequest = (options = {}) => {
 	const xhr = new XMLHttpRequest(); 
 	formData = new FormData;
 	if(options.method == 'POST') {
-		xhr.responseType = json; 
+		xhr.responseType = options.responseType; 
 		xhr.withCredentials = true;
 		formData.append( 'mail', `${options.data.mail}` );
 		formData.append( 'password', `${options.data.password}`);
 		try {
-			xhr.open( 'POST', '' );
+			xhr.open( 'POST', `${options.url}` );
 			xhr.send( formData );
 		}
 		catch(e) {

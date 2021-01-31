@@ -16,7 +16,7 @@ class Entity {
       url: this.url,
       method: 'GET',
       responseType: 'json', 
-      data:data, 
+      data: data, 
       callback:(err, response) => {
         callback(err, response); 
       }
@@ -34,7 +34,7 @@ class Entity {
       url: this.url,
       method: 'POST',
       responseType: 'json', 
-      data:modifiedData, 
+      data: modifiedData, 
       callback:(err, response) => {
         callback(err, response); 
       }
@@ -50,7 +50,7 @@ class Entity {
       url: this.url + `/${id}`,
       method: 'GET',
       responseType: 'json', 
-      data:data,
+      data: data,
       callback:(err, response) => {
         callback(err, response); 
       } 
@@ -67,7 +67,7 @@ class Entity {
       url: this.url,
       method: 'POST',
       responseType: 'json', 
-      data:modifiedData,
+      data: modifiedData,
       callback:(err, response) => {
         callback(err, response); 
       } 
