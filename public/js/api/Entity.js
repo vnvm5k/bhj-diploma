@@ -3,8 +3,8 @@
  * Имеет свойство URL, равно пустой строке.
  * */
 class Entity {
-  constructor(URL) {
-    this.URL = '';
+  constructor(url) {
+    this.url = '';
   }
   /**
    * Запрашивает с сервера список данных.
@@ -13,7 +13,7 @@ class Entity {
    * */
   static list( data, callback = f => f) {
     return createRequest({
-      url: this.URL,
+      url: this.url,
       method: 'GET',
       responseType: 'json', 
       data:data, 
@@ -31,7 +31,7 @@ class Entity {
   static create( data, callback = f => f) {
     let modifiedData = Object.assign({ _method: 'PUT' }, data );
     return createRequest({
-      url: this.URL,
+      url: this.url,
       method: 'POST',
       responseType: 'json', 
       data:modifiedData, 

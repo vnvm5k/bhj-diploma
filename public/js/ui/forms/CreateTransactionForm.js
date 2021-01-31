@@ -9,7 +9,7 @@ class CreateTransactionForm extends AsyncForm {
    * метод renderAccountsList
    * */
   constructor( element ) {
-    super();
+    super(element);
     this.renderAccountsList();
   }
 

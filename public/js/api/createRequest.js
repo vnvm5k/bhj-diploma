@@ -6,15 +6,26 @@ const createRequest = (options = {}) => {
 	const xhr = new XMLHttpRequest(); 
 	formData = new FormData;
 	if(options.method == 'POST') {
-		xhr.open( 'POST', '' );
 		xhr.responseType = json; 
 		xhr.withCredentials = true;
 		formData.append( 'mail', `${options.data.mail}` );
 		formData.append( 'password', `${options.data.password}`);
-		xhr.send( formData );
+		try {
+			xhr.open( 'POST', '' );
+			xhr.send( formData );
+		}
+		catch(e) {
+			options.callback(e);
+			console.log(e);
+		}
 	} else if(options.method == 'GET') {
-		xhr.open( 'GET', `${options.url}?mail=${options.data.mail}&password=${options.data.password}`);
-		xhr.send();
+		try {
+			xhr.open( 'GET', `${options.url}?mail=${options.data.mail}&password=${options.data.password}`);
+			xhr.send();
+		} catch(e) {
+			options.callback(e);
+			console.log(e);
+		}
 	}
 	
 	xhr.onload = function() {

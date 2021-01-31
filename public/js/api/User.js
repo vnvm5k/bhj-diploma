@@ -4,8 +4,8 @@
  * Имеет свойство URL, равное '/user'.
  * */
 class User {
-  constructor(URL) {
-    this.URL = '/user';
+  constructor(url) {
+    this.url = '/user';
   }
   /**
    * Устанавливает текущего пользователя в
@@ -43,7 +43,7 @@ class User {
    * */
   static fetch( data, callback = f => f ) {
     return createRequest({
-      url: this.URL + '/current',
+      url: this.url + '/current',
       method: 'POST',
       responseType: 'json', 
       data: data,
@@ -70,7 +70,7 @@ class User {
    * */
   static login(data, callback = f => f ) {
     return createRequest({
-      url: this.URL + '/login',
+      url: this.url + '/login',
       method: 'POST',
       responseType: 'json', 
       data: data,
@@ -90,7 +90,7 @@ class User {
    * */
   static register( data, callback = f => f) {
     return createRequest({ 
-      url: this.URL + '/register',
+      url: this.url + '/register',
       method: 'POST',
       responseType: 'json', 
       data: data, 
@@ -113,7 +113,7 @@ class User {
   
   static logout( data, callback = f => f) {
     return createRequest({ 
-      url: this.URL + '/logout',
+      url: this.url + '/logout',
       method: 'POST',
       responseType: 'json', 
       data: data, 
