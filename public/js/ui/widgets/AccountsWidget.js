@@ -13,8 +13,8 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
+    if (!element) throw new Error('Ошибка, передано пустое значение');
     this.element = element; 
-    if (!this.element) throw new Error('Ошибка, передано пустое значение');
     this.registerEvents();
     this.update(); 
   }
