@@ -44,7 +44,7 @@ class User {
   static fetch( data, callback = f => f ) {
     return createRequest({
       url: this.url + '/current',
-      method: 'POST',
+      method: 'GET',
       responseType: 'json', 
       data: data,
       
@@ -53,9 +53,9 @@ class User {
           this.setCurrent(response.user);
         }
         else {
-          this.unsetCurrent(response.user);
+          this.unsetCurrent();
         }
-        callback(err, response);
+        return callback;
       }
     });
 }
@@ -78,7 +78,7 @@ class User {
         if (err === null && response.success) {
           this.setCurrent(response.user);
         }
-        callback(err,response); 
+        return callback(err,response); 
       }
     });
 }
@@ -99,7 +99,7 @@ class User {
         if (err === null && response.success) {
           this.setCurrent(response.user);
         }
-        callback(err,response); 
+        return callback(err,response); 
       }
     });
   }
@@ -120,9 +120,9 @@ class User {
 
       callback:(err, response) => {
         if (err === null && response.success) {
-          this.unsetCurrent(response.user);
+          this.unsetCurrent();
         }
-        callback(err,response); 
+        return callback(err,response); 
       }
     });
   }

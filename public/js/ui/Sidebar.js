@@ -22,7 +22,8 @@ class Sidebar {
     const btn = document.querySelector('.sidebar-toggle');
     const body = document.querySelector('.sidebar-mini');
     btn.addEventListener('click', function() {
-      body.classList.toggle('sidebar-open sidebar-collapse');
+      body.classList.toggle('sidebar-open');
+      body.classList.toggle('sidebar-collapse');
     })
   }
 
@@ -36,18 +37,17 @@ class Sidebar {
   static initAuthLinks() {
     const regBtn = document.querySelector('.menu-item_register');
     regBtn.addEventListener('click', function(e){
-      Modal.open(App.getModal('register'));
+      App.getModal('register').open();
       e.preventDefault();
     });
     const logInBtn = document.querySelector('.menu-item_login');
     logInBtn.addEventListener('click', function(e){
-      Modal.open(App.getModal('login'));
+      App.getModal('login').open();
       e.preventDefault();
     });
     const logOutBtn = document.querySelector('.menu-item_logout');
     logOutBtn.addEventListener('click', function(e) {
-      User.logout();
-      User.logout((err, response) => {
+      User.logout(User.current(), (err, response) => {
         if(response.success) {
         App.setState( 'init' ); 
        }

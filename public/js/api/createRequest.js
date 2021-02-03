@@ -2,12 +2,13 @@
  * Основная функция для совершения запросов
  * на сервер.
  * */
+
 const createRequest = (options = {}) => {
 	const xhr = new XMLHttpRequest(); 
+	xhr.responseType = options.responseType; 
+	xhr.withCredentials = true;
 	formData = new FormData;
 	if(options.method == 'POST') {
-		xhr.responseType = options.responseType; 
-		xhr.withCredentials = true;
 		formData.append( 'mail', `${options.data.mail}` );
 		formData.append( 'password', `${options.data.password}`);
 		try {
@@ -36,3 +37,7 @@ const createRequest = (options = {}) => {
 	}
 	
 };
+
+
+
+

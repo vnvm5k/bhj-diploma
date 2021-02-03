@@ -27,7 +27,7 @@ class Modal {
     this.element.querySelectorAll("[data-dismiss]").forEach(element => {
       element.addEventListener('click',(e) => {
         e.preventDefault(); 
-        this.onClose(element);
+        this.onClose(e);
       });
     });
   }
@@ -46,7 +46,7 @@ class Modal {
     this.element.querySelectorAll("[data-dismiss]").forEach(element => {
       element.removeEventListener('click', (e) => {
         e.preventDefault();
-        this.onClose(element);
+        this.onClose(e);
       });
     });
   }

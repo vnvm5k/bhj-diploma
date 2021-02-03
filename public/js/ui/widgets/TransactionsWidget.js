@@ -28,12 +28,12 @@ class TransactionsWidget {
 
     incomeBtn.addEventListener('click', function(e) {
       e.preventDefault();
-       Modal.open(App.getModal('createIncome')); 
+       App.getModal('newIncome').open(); 
     });
 
     expenseBtn.addEventListener('click', function(e) {
       e.preventDefault();
-       Modal.open(App.getModal('createExpense')); 
+       App.getModal('newExpense').open(); 
     });
   }
 }

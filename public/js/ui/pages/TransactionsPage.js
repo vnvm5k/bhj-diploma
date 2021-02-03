@@ -20,7 +20,7 @@ class TransactionsPage {
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-    this.render()
+    this.render(this.lastOptions)
   }
 
   /**
@@ -34,12 +34,13 @@ class TransactionsPage {
     const rtransBtn = document.querySelectorAll('.transaction__remove');
 
     raccBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       this.removeAccount();
     });
 
     rtransBtn.forEach( function(element) {
       element.addEventListener('click', (e) => {
-        this.removeTransaction(element.data-id);
+        this.removeTransaction(element.dataset.id);
       });
     });
   }
@@ -53,14 +54,15 @@ class TransactionsPage {
    * */
   removeAccount() {
     if (!this.lastOptions) return
-    this.confirm('Вы действительно хотите удалить счёт'); 
-    Account.remove();
-    this.clear(); 
-    Account.remove((err,response) => {
-      if(err === null && response.success) {
-        App.update();
-      }
-    });
+    if(confirm('Вы действительно хотите удалить счёт?')){ 
+      this.clear();
+      let accId = document.querySelector('.active').dataset.id;
+      Account.remove(accId, (err,response) => {
+        if(err === null && response.success) {
+          App.update();
+        }
+      });
+    }
   }
 
   /**
@@ -69,13 +71,13 @@ class TransactionsPage {
    * По удалению транзакции вызовите метод App.update()
    * */
   removeTransaction( id ) {
-    this.confirm('Вы действительно хотите удалить эту транзакцию?');
-    Transaction.remove(id);
-    Transaction.remove((err,response) => {
-      if(err === null && response.success) {
-        App.update();
-      }
-    });
+    if (confirm('Вы действительно хотите удалить эту транзакцию?')) {
+      Transaction.remove(id, {}, (err,response) => {
+        if(err === null && response.success) {
+          App.update();
+        }
+      });
+    }
   }
 
   /**
@@ -86,14 +88,14 @@ class TransactionsPage {
    * */
   render( options ) {
     if (!options) return; 
-    const lastOptions = options;
-    const data = Account.get(lastOptions.account_id);
-    const list = Transaction.list();
-    if(data) {
-      this.renderTitle(data.name); 
-    }
-    this.renderTransactions(list);  
-
+    this.lastOptions = options;
+    Account.get(options.account_id, {}, (err,response) => {
+      this.renderTitle(response.data.name); 
+    });
+    
+    Transaction.list(options, (error, response) => {
+      this.renderTransactions(response.data);
+    });
   }
 
   /**

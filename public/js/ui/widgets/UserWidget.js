@@ -23,10 +23,11 @@ class UserWidget {
    * авторизованного пользователя
    * */
   update() {
-    User.current();
-    if (User.current()) {
-      const userName = document.querySelector(".user-name");
-      userName.innerHTML = User.current().name; 
+    const currentUser = User.current();
+    if (!currentUser) {
+      return;
+    } else {
+      this.element.querySelector('.user-name').innerHTML = User.current().name;
     }
   }
 }

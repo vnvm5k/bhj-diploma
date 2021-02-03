@@ -27,19 +27,19 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-    const createBtn = document.querySelector('.create-account');
-    const accountList = document.querySelector('.accounts-panel');
+    const createBtn = Array.from(this.element.querySelectorAll('.create-account'));
+    const accountList = Array.from(document.querySelectorAll('.accounts-panel'));
     
 
-    createBtn.addEventListener('click', function(e) {
+    createBtn[0].addEventListener('click', function(e) {
       e.preventDefault();
-       Modal.open(App.getModal('createAccount')); 
+       App.getModal('createAccount').open(); 
     });
 
-    accountList.addEventListener('click', function(e) {
+    accountList[0].addEventListener('click', function(e) {
       e.preventDefault();
-      let event = e.target; 
-      AccountsWidget.onSelectAccount(event); 
+      let event = e.target.closest('.account'); 
+      this.onSelectAccount(event); 
     });   
   }
 
@@ -54,14 +54,14 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-    if (User.current()) {
-       let accList = Account.list();
-       this.clear();
-       accList.forEach((element) => {
-         this.renderItem(element); 
-       });
+    const user = User.current();
+    this.clear();
 
-    }
+    if(user){
+      Account.list(user, (err, response) => {
+        this.renderItem(response.data);
+      });
+    };
   }
 
   /**
@@ -70,7 +70,9 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-    this.accountList.innerHTML = ''; 
+    this.element.querySelectorAll('.account').forEach((element) => {
+      element.remove();
+    }); 
   }
 
   /**
@@ -81,8 +83,11 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount( element ) {
-    element.classList.toggle('active'); 
-    App.showPage( 'transactions', { account_id: `${this.element.id}` });
+    let activeAccount = this.element.querySelector('.active');
+    if(activeAccount){
+      activeAccount.classList.toggle('active');
+    }; 
+    App.showPage( 'transactions', { account_id: element.dataset.id });
   }
 
   /**

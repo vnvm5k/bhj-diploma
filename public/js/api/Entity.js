@@ -16,12 +16,11 @@ class Entity {
       url: this.url,
       method: 'GET',
       responseType: 'json', 
-      data: data, 
-      callback:(err, response) => {
-        callback(err, response); 
-      }
-    });
+      data, 
+      callback 
+    })
   }
+
 
   /**
    * Создаёт счёт или доход/расход с помощью запроса
@@ -35,9 +34,7 @@ class Entity {
       method: 'POST',
       responseType: 'json', 
       data: modifiedData, 
-      callback:(err, response) => {
-        callback(err, response); 
-      }
+      callback
     });
   }
 
@@ -50,10 +47,8 @@ class Entity {
       url: this.url + `/${id}`,
       method: 'GET',
       responseType: 'json', 
-      data: data,
-      callback:(err, response) => {
-        callback(err, response); 
-      } 
+      data,
+      callback
    });
   }
 
@@ -62,16 +57,14 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static remove( id = '', data, callback = f => f) {
-    let modifiedData = Object.assign({ _method: 'DELETE', id: `${id}` }, data );
+    let modifiedData = Object.assign(data, {id, _method: 'DELETE'});
     return createRequest({
-      url: this.url,
+      url: this.url + '/',
       method: 'POST',
       responseType: 'json', 
       data: modifiedData,
-      callback:(err, response) => {
-        callback(err, response); 
-      } 
+      callback
     });
-}
+  }
 }
 
