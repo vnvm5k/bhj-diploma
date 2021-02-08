@@ -6,6 +6,13 @@
       "password": "demo",
       "id": "1",
       "isAuthorized": false
+    },
+    {
+      "name": "test",
+      "email": "test@msn.com",
+      "password": "12345678",
+      "id": "2k59pd34kkvflbil",
+      "isAuthorized": true
     }
   ],
   "accounts": [
@@ -160,6 +167,46 @@
       "sum": 300000,
       "type": "expense",
       "user_id": "1"
+    },
+    {
+      "id": "2k59pc7ckkviy53s",
+      "type": "INCOME",
+      "name": "печеньки",
+      "sum": 1000,
+      "account_id": "2k59p3z8kkvixa2t",
+      "created_at": "2021-02-07T19:13:26.103Z"
+    },
+    {
+      "id": "2k59pctwkkvj3oyx",
+      "type": "INCOME",
+      "name": "ggg",
+      "sum": 1000,
+      "account_id": "2k59p3z8kkvixa2t",
+      "created_at": "2021-02-07T19:17:45.128Z"
+    },
+    {
+      "id": "2k59p4hskkvmztrq",
+      "type": "INCOME",
+      "name": "ggg",
+      "sum": 10,
+      "account_id": "2k59pd7skkvmzd2u",
+      "created_at": "2021-02-07T21:06:43.189Z"
+    },
+    {
+      "id": "2k59p9okkkvn01tr",
+      "type": "EXPENSE",
+      "name": "ggg",
+      "sum": 10,
+      "account_id": "2k59p8zgkkvmzjvx",
+      "created_at": "2021-02-07T21:06:53.630Z"
+    },
+    {
+      "id": "2k59pbigkkvn0ac0",
+      "type": "INCOME",
+      "name": "fff",
+      "sum": 10,
+      "account_id": "2k59pd7skkvmzd2u",
+      "created_at": "2021-02-07T21:07:04.655Z"
     }
   ]
 }

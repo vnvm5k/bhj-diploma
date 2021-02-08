@@ -30,18 +30,18 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    const raccBtn = document.querySelector('.remove-account');
-    const rtransBtn = document.querySelectorAll('.transaction__remove');
-
-    raccBtn.addEventListener('click', (e) => {
+    this.element.addEventListener('click', e => {
       e.preventDefault();
-      this.removeAccount();
-    });
+      const rAccBtn = e.target.closest('.remove-account');
+      const rTransBtn = e.target.closest('.transaction__remove');
 
-    rtransBtn.forEach( function(element) {
-      element.addEventListener('click', (e) => {
-        this.removeTransaction(element.dataset.id);
-      });
+      if (rAccBtn) {
+        this.removeAccount();
+      }
+
+      if (rTransBtn) {
+        this.removeTransaction(rTransBtn.dataset.id);
+      }
     });
   }
   /**
@@ -55,13 +55,13 @@ class TransactionsPage {
   removeAccount() {
     if (!this.lastOptions) return
     if(confirm('Вы действительно хотите удалить счёт?')){ 
-      this.clear();
       let accId = document.querySelector('.active').dataset.id;
-      Account.remove(accId, (err,response) => {
-        if(err === null && response.success) {
+      Account.remove(accId, {}, (err,response) => {
+        if(response && response.success) {
           App.update();
         }
       });
+      this.clear();
     }
   }
 
@@ -73,7 +73,7 @@ class TransactionsPage {
   removeTransaction( id ) {
     if (confirm('Вы действительно хотите удалить эту транзакцию?')) {
       Transaction.remove(id, {}, (err,response) => {
-        if(err === null && response.success) {
+        if(response && response.success) {
           App.update();
         }
       });
@@ -94,7 +94,9 @@ class TransactionsPage {
     });
     
     Transaction.list(options, (error, response) => {
-      this.renderTransactions(response.data);
+      if (response && response.success) {
+        this.renderTransactions(response.data);
+      }
     });
   }
 
@@ -122,14 +124,20 @@ class TransactionsPage {
    * в формат «10 марта 2019 г. в 03:20»
    * */
   formatDate( date ) {
-   const time = new Date(date);
-   const year = time.getFullYear();
-   const month = time.getMonth();
-   const day = time.getDate();
-   const hour = time.getHours();
-   const minute = time.getMinutes(); 
-   const monthName = ["января", "февраля", "марта","апреля", "мая","июня","июля","авгутса","сентября","октября","ноября","декабря"]
-   return day + monthName[month] +  year + 'г.' + 'в' + hour + ':' + minute
+    const formatedDate = new Date(date);
+
+    const formatFunction = new Intl.DateTimeFormat("ru", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+
+    const dateTime = formatedDate.toLocaleTimeString("ru", {
+      hour: "numeric",
+      minute: "numeric"
+    });
+
+    return `${formatFunction.format(formatedDate)} в ${dateTime}`;
   }
 
   /**
@@ -137,15 +145,14 @@ class TransactionsPage {
    * item - объект с информацией о транзакции
    * */
   getTransactionHTML( item ) {
-    let trans = 
-    `<div class="transaction transaction_${item.type} row">
+     return `<div class="transaction transaction_${item.type.toLowerCase()} row">
         <div class="col-md-7 transaction__details">
           <div class="transaction__icon">
               <span class="fa fa-money fa-2x"></span>
           </div>
           <div class="transaction__info">
               <h4 class="transaction__title">${item.name}</h4>
-              <div class="transaction__date">${this.formatDate()}</div>
+              <div class="transaction__date">${this.formatDate(item.created_at)}</div>
           </div>
         </div>
         <div class="col-md-3">
@@ -167,7 +174,8 @@ class TransactionsPage {
    * используя getTransactionHTML
    * */
   renderTransactions( data ) {
-    const content = document.querySelector('.content'); 
+    const content = document.querySelector('.content');
+    content.innerHTML = ''; 
     data.forEach( (element) => {
        content.innerHTML += this.getTransactionHTML(element); 
     });

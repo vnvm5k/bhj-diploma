@@ -18,14 +18,18 @@ class CreateTransactionForm extends AsyncForm {
    * Обновляет в форме всплывающего окна выпадающий список
    * */
   renderAccountsList() {
-    const accSelect = document.querySelectorAll('.accounts-select');
+    if (!User.current()) {
+      return;
+    }
+
+    const accSelect = this.element.querySelector('.accounts-select');
     
     Account.list(User.current(), (err, response) => {
-      if(err === null && response.success) {
+      if(response && response.data) {
         let accList = response.data;
+        accSelect.innerHTML = "";
         accList.forEach((element) => {
-        accSelect[0].innerHTML += `<option value=${element.id}>${element.name}</option>`; 
-        accSelect[1].innerHTML += `<option value=${element.id}>${element.name}</option>`;
+          accSelect.innerHTML += `<option value=${element.id}>${element.name}</option>`; 
         });
       }
     });
@@ -39,12 +43,19 @@ class CreateTransactionForm extends AsyncForm {
    * в котором находится форма
    * */
   onSubmit( options ) {
-    Transaction.create(options.data, (err,response) => {
-      if(err === null && response.success) {
-        this.formData.reset();
-        App.getModal('createIncome').close(); 
-        App.getModal('createExpense').close();
+    Transaction.create(options, (err,response) => {
+      if(response && response.success) {
+        const transaction = document.querySelectorAll(".modal");
+        transaction.forEach(element => {
+          if (element.getAttribute("id") == "modal-new-income") {
+            App.getModal("newIncome").close();
+          } else if (element.getAttribute("id") == "modal-new-expense") {
+            App.getModal("newExpense").close();
+          }
+        });
+
         App.update();
+        this.element.reset();
       }
     });
   }

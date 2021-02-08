@@ -7,27 +7,37 @@ const createRequest = (options = {}) => {
 	const xhr = new XMLHttpRequest(); 
 	xhr.responseType = options.responseType; 
 	xhr.withCredentials = true;
-	formData = new FormData;
-	if(options.method == 'POST') {
-		formData.append( 'mail', `${options.data.mail}` );
-		formData.append( 'password', `${options.data.password}`);
-		try {
-			xhr.open( 'POST', `${options.url}` );
-			xhr.send( formData );
-		}
-		catch(e) {
-			options.callback(e);
-			console.log(e);
-		}
-	} else if(options.method == 'GET') {
-		try {
-			xhr.open( 'GET', `${options.url}?mail=${options.data.mail}&password=${options.data.password}`);
-			xhr.send();
-		} catch(e) {
-			options.callback(e);
-			console.log(e);
-		}
+	let formData = new FormData();
+	let url = options.url;
+
+  	if (options.data) {
+  		url += "?";
+  		for (let key in options.data) {
+  			url += key + "=" + options.data[key] + "&";
+  			formData.append(key, options.data[key]);
+  		}
+    	url = url.slice(0, -1);
+
+	}else {
+		options.data = {};
+	    url = "";
 	}
+
+	try {
+	  if (options.method == "GET") {
+	    xhr.open(options.method, url);
+	    xhr.send();
+
+	  } else {
+	    xhr.open(options.method, options.url);
+	    xhr.send(formData);
+	  }
+
+	} catch (e) {
+		options.callback(e);
+	}
+
+	
 	
 	xhr.onload = function() {
 		options.callback(null, xhr.response);

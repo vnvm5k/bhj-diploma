@@ -27,7 +27,7 @@ class UserWidget {
     if (!currentUser) {
       return;
     } else {
-      this.element.querySelector('.user-name').innerHTML = User.current().name;
+      this.element.querySelector('.user-name').innerHTML = currentUser.name;
     }
   }
 }

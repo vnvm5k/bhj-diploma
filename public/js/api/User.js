@@ -4,9 +4,9 @@
  * Имеет свойство URL, равное '/user'.
  * */
 class User {
-  constructor(url) {
-    this.url = '/user';
-  }
+  
+   static url = '/user';
+
   /**
    * Устанавливает текущего пользователя в
    * локальном хранилище.
@@ -28,13 +28,7 @@ class User {
    * из локального хранилища
    * */
   static current() {
-        const userData = JSON.parse(localStorage.getItem('user'));
-        if (userData) {
-          return JSON.parse(localStorage.getItem('user'));
-        }
-        else {
-          return undefined; 
-        }  
+    return JSON.parse(localStorage.getItem('user'));
   }
 
   /**
@@ -46,10 +40,10 @@ class User {
       url: this.url + '/current',
       method: 'GET',
       responseType: 'json', 
-      data: data,
+      data,
       
       callback:(err,response) => {
-        if(err === null && response.success) {
+        if(response && response.user) {
           this.setCurrent(response.user);
         }
         else {
@@ -73,9 +67,9 @@ class User {
       url: this.url + '/login',
       method: 'POST',
       responseType: 'json', 
-      data: data,
+      data,
       callback:(err, response) => {
-        if (err === null && response.success) {
+        if (response && response.user) {
           this.setCurrent(response.user);
         }
         return callback(err,response); 
@@ -93,10 +87,10 @@ class User {
       url: this.url + '/register',
       method: 'POST',
       responseType: 'json', 
-      data: data, 
+      data, 
 
       callback:(err, response) => {
-        if (err === null && response.success) {
+        if (response && response.user) {
           this.setCurrent(response.user);
         }
         return callback(err,response); 
@@ -116,10 +110,10 @@ class User {
       url: this.url + '/logout',
       method: 'POST',
       responseType: 'json', 
-      data: data, 
+      data, 
 
       callback:(err, response) => {
-        if (err === null && response.success) {
+        if (response && response.user) {
           this.unsetCurrent();
         }
         return callback(err,response); 
